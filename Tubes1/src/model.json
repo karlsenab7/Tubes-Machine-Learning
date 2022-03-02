@@ -1,0 +1,23 @@
+{
+	"model": {
+		"layers": [
+			{
+				"activation": "sigmoid",
+				"numOfNode": 3
+			},
+			{
+				"activation": "sigmoid",
+				"numOfNode": 2
+			},
+			{
+				"activation": "sigmoid",
+				"numOfNode": 1
+			}
+		],
+		"weights": [
+			[-10, 20, 20],
+			[-30, -20, -20],
+			[-30, 20, 20]
+		]
+	}
+}
