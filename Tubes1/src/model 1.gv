@@ -1,0 +1,12 @@
+digraph "Feed Forward Neural Network" {
+	node [fixedsize=true shape=circle width=0.9]
+	x0 -> h1_0 [label=20]
+	x0 -> h1_1 [label=-20]
+	x1 -> h1_0 [label=20]
+	x1 -> h1_1 [label=-20]
+	bx -> h1_0 [label=-10]
+	bx -> h1_1 [label=30]
+	h1_0 -> h2_0 [label=20]
+	h1_1 -> h2_0 [label=20]
+	bhx1 -> h2_0 [label=-30]
+}
