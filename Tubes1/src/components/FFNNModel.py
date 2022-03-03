@@ -1,6 +1,6 @@
 import pandas as pd
-from Layer import Layer
-from Activation import Activation
+from components.Activation import Activation
+from components.Layer import Layer
 
 class FFNNModel:
     def __init__(self, layers):

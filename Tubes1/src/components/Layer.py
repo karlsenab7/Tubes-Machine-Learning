@@ -1,5 +1,3 @@
-import string
-from tokenize import String
 class Layer :
     def __init__(self, activation, numOfNode, weights, value) :
         self.activation : str = activation
