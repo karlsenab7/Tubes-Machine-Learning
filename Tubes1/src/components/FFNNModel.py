@@ -38,8 +38,9 @@ class FFNNModel:
 
     @staticmethod
     def getModelFromFile (path):
+        MODELS_DIR = "models/"
         layers: list[Layer] = []
-        df = pd.read_json(path)	
+        df = pd.read_json(MODELS_DIR + path)	
         for layer in df.model.layers :
             layer_ = Layer(layer['activation'], layer['numOfNode'], layer['weights'], layer['values'])
             layers.append(layer_)
