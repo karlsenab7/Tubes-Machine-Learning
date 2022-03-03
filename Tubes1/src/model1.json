@@ -2,24 +2,24 @@
 	"model": {
 		"layers": [
 			{
-				"activation": "sigmoid",
+				"activation": "relu",
 				"numOfNode": 2,
 				"weights": [],
 				"values": []
 			},
 			{
-				"activation": "sigmoid",
+				"activation": "relu",
 				"numOfNode": 2,
 				"weights": [
-					[-10, 20, 20],
-					[30, -20, -20]
+					[0, 1, 1],
+					[-1, 1, 1]
 				],
 				"values": []
 			},
 			{
-				"activation": "sigmoid",
+				"activation": "relu",
 				"numOfNode": 1,
-				"weights": [[-30, 20, 20]],
+				"weights": [[0, 1, -2]],
 				"values": []
 			}
 		]
