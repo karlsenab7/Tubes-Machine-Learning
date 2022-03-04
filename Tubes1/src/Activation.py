@@ -9,7 +9,8 @@ class Activation:
 
     @staticmethod
     def sigmoid(x):
-        return 1 / (1 + math.exp(-x))
+        value = 1 / (1 + math.exp(x*(-1)))
+        return round(value)
 
     @staticmethod
     def relu(x):    
