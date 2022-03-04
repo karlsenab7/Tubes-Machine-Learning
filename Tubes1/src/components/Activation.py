@@ -1,6 +1,4 @@
-from lib2to3.pytree import Node
 import math
-import numpy as np
 
 class Activation:
     @staticmethod
