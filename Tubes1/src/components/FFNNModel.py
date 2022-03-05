@@ -13,15 +13,19 @@ class FFNNModel:
 
     def solve(self):
         for i in range(len(self.layers)-1):
+            print("LAYER ==> ", i)
             idxLayerInput = i
             idxLayerTarget = i+1
             targetValues = []
+            tempSigma=[]
+            print("Input layer \t:", self.layers[idxLayerInput].values)
             for nodeTarget in range(self.layers[idxLayerTarget].numOfNode):
                 sigma = self.getSigma(idxLayerTarget, self.layers[idxLayerInput].values, nodeTarget)
-                # print(sigma)
+                tempSigma.append(sigma)
                 tempVal = Activation.active(sigma, self.layers[idxLayerTarget].activation)
                 targetValues.append(tempVal)
 
+            print("Sigma   :", tempSigma)
             self.layers[idxLayerTarget].values = targetValues
             # print(targetValues)
         return self.layers[len(self.layers)-1].values
