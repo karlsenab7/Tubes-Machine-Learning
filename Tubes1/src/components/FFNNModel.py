@@ -18,7 +18,7 @@ class FFNNModel:
             targetValues = []
             for nodeTarget in range(self.layers[idxLayerTarget].numOfNode):
                 sigma = self.getSigma(idxLayerTarget, self.layers[idxLayerInput].values, nodeTarget)
-                print(sigma)
+                # print(sigma)
                 tempVal = Activation.active(sigma, self.layers[idxLayerTarget].activation)
                 targetValues.append(tempVal)
 
