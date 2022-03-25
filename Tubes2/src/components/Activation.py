@@ -1,13 +1,15 @@
 import math
+import numpy as np
+
 
 class Activation:
     LINEAR_ACTIVATION = "linear"
     SIGMOID_ACTIVATION = "sigmoid"
     RELU_ACTIVATION = "relu"
     SOFTMAX_ACTIVATION = "softmax"
-    
+
     @staticmethod
-    def linear(x) :
+    def linear(x):
         return round(x)
 
     @staticmethod
@@ -16,13 +18,14 @@ class Activation:
         return value
 
     @staticmethod
-    def relu(x):    
+    def relu(x):
         return max(0.0, x)
 
     @staticmethod
     def softmax(x):
-        return x
-    
+        e_x = np.exp(x - np.max(x))
+        return e_x / e_x.sum(axis=0)
+
     @staticmethod
     def active(x, activation_function):
         if (activation_function == Activation.LINEAR_ACTIVATION):

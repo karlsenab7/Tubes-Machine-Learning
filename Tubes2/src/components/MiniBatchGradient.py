@@ -5,13 +5,13 @@ from components.Layer import Layer
 
 
 class MiniBatchGradient:
-    def __init__(self, nodesArr, batchSize):
+    def __init__(self, nodesArray, batchSize):
         self.batchSize = batchSize
-        self.layers = [Layer(nbNodes, Activation.SIGMOID_ACTIVATION) for nbNodes in nodesArr]
+        self.layers = [Layer(nodes, Activation.SIGMOID_ACTIVATION) for nodes in nodesArray]
         self.weights = [np.random.rand(
-            nodesArr[i]+1, nodesArr[i+1])-0.5 for i in range(len(nodesArr)-1)]
+            nodesArray[i]+1, nodesArray[i+1])-0.5 for i in range(len(nodesArray)-1)]
 
-    def train(self, trainingData, trainingTarget, epochs, minCumulativeError, learningRate):
+    def trainModel(self, trainingData, trainingTarget, epochs, minCumulativeError, learningRate):
         trainResult = {
             "epochs": epochs,
             "minErr": minCumulativeError,
@@ -20,21 +20,21 @@ class MiniBatchGradient:
             "acc": []
         }
 
-        nbData = len(trainingData)
+        numOfData = len(trainingData)
 
         for i in range(epochs):
             accuracy = 0
             cumulativeError = 0
             count = 0
             globalDeltaW = [np.zeros(
-                (self.layers[i].nbNodes+1, self.layers[i+1].nbNodes)) for i in range(len(self.layers)-1)]
+                (self.layers[i].nodes+1, self.layers[i+1].nodes)) for i in range(len(self.layers)-1)]
 
-            for j in range(nbData):
+            for j in range(numOfData):
                 inputs = trainingData[j]
                 target = trainingTarget[j]
 
                 output = self.feedForward(inputs)
-                totalError = self.calcTotalError(output, target)
+                totalError = self.sumOfError(output, target)
                 cumulativeError += totalError
 
                 localDeltaW = self.backwardProp(target, learningRate)
@@ -50,17 +50,17 @@ class MiniBatchGradient:
                     for k in range(len(self.weights)):
                         self.weights[k] += globalDeltaW[k]
                     globalDeltaW = [np.zeros(
-                        (self.layers[i].nbNodes+1, self.layers[i+1].nbNodes)) for i in range(len(self.layers)-1)]
+                        (self.layers[i].nodes+1, self.layers[i+1].nodes)) for i in range(len(self.layers)-1)]
 
                 count += 1
 
             trainResult["err"].append(cumulativeError)
-            trainResult["acc"].append(accuracy/nbData)
-            # print(f"Epoch{i+1} done! (err={cumulativeError}, acc={round(accuracy/nbData, 2)})", end="; ")
-            if (i % 100 == 0 or i == epochs-1):
-                print(f"e{i+1}(err={cumulativeError}, acc={round(accuracy/nbData, 2)})")
+            trainResult["acc"].append(accuracy/numOfData)
 
-            # Threshold
+            if (i % 100 == 0 or i == epochs-1):
+                print(f"e{i}(err={cumulativeError}, acc={round(accuracy/numOfData, 2)})")
+
+            # threshold
             if cumulativeError <= minCumulativeError:
                 break
 
@@ -75,7 +75,7 @@ class MiniBatchGradient:
 
         return results
 
-    def calcTotalError(self, outputs, targets):
+    def sumOfError(self, outputs, targets):
         errors = 0
         for i in range(len(targets)):
             errors += math.pow((targets[i]-outputs[i]), 2)
@@ -83,7 +83,7 @@ class MiniBatchGradient:
         return errors*0.5
 
     def feedForward(self, inputs, pr=False):
-        if len(inputs) != self.layers[0].nbNodes:
+        if len(inputs) != self.layers[0].nodes:
             raise ValueError("Input error!!!")
         else:
             self.layers[0].outputs = np.array(inputs)
@@ -98,21 +98,21 @@ class MiniBatchGradient:
         return instance
 
     def backwardProp(self, targets, learningRate):
-        deltaWeights = [np.zeros((self.layers[i].nbNodes+1, self.layers[i+1].nbNodes))
+        deltaWeights = [np.zeros((self.layers[i].nodes+1, self.layers[i+1].nodes))
                         for i in range(len(self.layers)-1)]
 
         for i in range(len(self.layers)-1, 0, -1):
-            currLayer = self.layers[i]
+            curLayer = self.layers[i]
 
             if i == len(self.layers)-1:
-                for j in range(currLayer.nbNodes):
-                    outputK = currLayer.outputs[j]
+                for j in range(curLayer.nodes):
+                    outputK = curLayer.outputs[j]
                     self.layers[i].deltas[j] = outputK * \
                         (1-outputK)*(targets[j]-outputK)
 
             else:
-                for j in range(currLayer.nbNodes):
-                    outputH = currLayer.outputs[j]
+                for j in range(curLayer.nodes):
+                    outputH = curLayer.outputs[j]
                     self.layers[i].deltas[j] = outputH * \
                         (1-outputH) * \
                         np.dot(self.weights[i][j], self.layers[i+1].deltas)
@@ -121,18 +121,18 @@ class MiniBatchGradient:
             outputs = self.layers[n].outputs
             deltas = self.layers[n+1].deltas
 
-            partialRes = []
+            tempResult = []
             for output in outputs:
                 for delta in deltas:
-                    partialRes.append(output*delta)
+                    tempResult.append(output*delta)
 
             for delta in deltas:
-                partialRes.append(delta)
+                tempResult.append(delta)
 
             i = 0
             for row in range(len(deltaWeights[n])):
                 for col in range(len(deltaWeights[n][row])):
-                    deltaWeights[n][row][col] = partialRes[i]*learningRate
+                    deltaWeights[n][row][col] = tempResult[i]*learningRate
                     i += 1
 
         return deltaWeights
