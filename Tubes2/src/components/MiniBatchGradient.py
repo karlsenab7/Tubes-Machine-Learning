@@ -56,8 +56,9 @@ class MiniBatchGradient:
 
             trainResult["err"].append(cumulativeError)
             trainResult["acc"].append(accuracy/nbData)
-            # print("Epoch : {:d} Cumulative Error : {:f} Accuracy : {:f}".format(
-            #     i+1, cumulativeError, accuracy/nbData))
+            # print(f"Epoch{i+1} done! (err={cumulativeError}, acc={round(accuracy/nbData, 2)})", end="; ")
+            if (i % 100 == 0 or i == epochs-1):
+                print(f"e{i+1}(err={cumulativeError}, acc={round(accuracy/nbData, 2)})")
 
             # Threshold
             if cumulativeError <= minCumulativeError:
