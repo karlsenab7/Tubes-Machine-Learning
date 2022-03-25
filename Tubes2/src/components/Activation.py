@@ -1,13 +1,11 @@
 import math
 
 class Activation:
-
     LINEAR_ACTIVATION = "linear"
     SIGMOID_ACTIVATION = "sigmoid"
     RELU_ACTIVATION = "relu"
     SOFTMAX_ACTIVATION = "softmax"
     
-
     @staticmethod
     def linear(x) :
         return round(x)

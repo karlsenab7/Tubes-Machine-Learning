@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from components.Activation import Activation 
 
@@ -21,7 +20,7 @@ class Layer:
   # Return sebuah numpy array yang sizenya sama dengan nbNodes
   def compute(self, inputArr):
     if len(inputArr) > self.nbNodes:
-      raise ValueError("Shape of input ({:d}) does not match number of nodes ({:d})".format(len(inputArr), self.nbNodes))
+      raise ValueError("Input Error!!!")
     else:
       self.inputs = np.array(inputArr)
       self.outputs = np.array([self.activationFunction(y) for y in inputArr])
